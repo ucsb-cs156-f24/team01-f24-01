@@ -26,6 +26,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -55,6 +56,59 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
     public void logged_in_users_can_get_all() throws Exception {
             mockMvc.perform(get("/api/ucsborganizations/all"))
                             .andExpect(status().is(200)); // logged
+    }
+
+    @Test
+    public void logged_out_users_cannot_get_by_id() throws Exception {
+            mockMvc.perform(get("/api/ucsborganizations?orgField=SKY"))
+                            .andExpect(status().is(403)); // logged out users can't get by id
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+            // arrange
+
+            UCSBOrganization organization = UCSBOrganization.builder()
+                            .orgField("SKY")
+                            .orgTranslationShort("SKYDIVING CLUB")
+                            .orgTranslation("SKYDIVING CLUB AT UCSB")
+                            .inactive(false)
+                            .build();
+
+            when(ucsbOrganizationRepository.findById(eq("SKY"))).thenReturn(Optional.of(organization));
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/ucsborganizations?orgField=SKY"))
+                            .andExpect(status().isOk()).andReturn();
+
+            // assert
+
+            verify(ucsbOrganizationRepository, times(1)).findById(eq("SKY"));
+            String expectedJson = mapper.writeValueAsString(organization);
+            String responseString = response.getResponse().getContentAsString();
+            assertEquals(expectedJson, responseString);
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+            // arrange
+
+            when(ucsbOrganizationRepository.findById(eq("WARRIORS"))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/ucsborganizations?orgField=WARRIORS"))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+
+            verify(ucsbOrganizationRepository, times(1)).findById(eq("WARRIORS"));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("UCSBOrganization with id WARRIORS not found", json.get("message"));
     }
 
     // Authorization tests for POST /api/ucsborganizations/post
