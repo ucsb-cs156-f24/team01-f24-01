@@ -93,5 +93,27 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L94">        return savedRecommendationRequest;</span>
     }
+
+    @Operation(summary= &quot;Update a single date&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public RecommendationRequest updateRecommendationRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid RecommendationRequest incoming) {
+
+<span class="fc" id="L104">        RecommendationRequest request = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L105">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+
+<span class="fc" id="L107">        request.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L108">        request.setProfessorEmail(incoming.getProfessorEmail());</span>
+<span class="fc" id="L109">        request.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L110">        request.setDateRequested(incoming.getDateRequested());</span>
+<span class="fc" id="L111">        request.setDateNeeded(incoming.getDateNeeded());</span>
+<span class="fc" id="L112">        request.setDone(incoming.getDone());</span>
+
+<span class="fc" id="L114">        recommendationRequestRepository.save(request);</span>
+
+<span class="fc" id="L116">        return request;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
