@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/recommendationrequests")
 @RestController
 @Slf4j
-public class RecommendationRequestController {
+public class RecommendationRequestController extends ApiController {
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
 
@@ -45,7 +45,17 @@ public class RecommendationRequestController {
         return requests;
     }
 
- 
+    @Operation(summary= "Get a single date")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        RecommendationRequest request = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+
+        return request;
+    }
+
     @Operation(summary= "Create a new request")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
