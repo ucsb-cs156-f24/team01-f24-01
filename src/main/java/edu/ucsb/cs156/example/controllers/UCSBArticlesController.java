@@ -57,14 +57,14 @@ public class UCSBArticlesController extends ApiController {
 
 
     /**
-     * Create a new date
+     * Create a new article
      * 
      * @param title  the title of the article
      * @param url          the url of the article
      * @param explanation    a summary of the article
      * @param email          an email address
      * @param dateAdded the date
-     * @return the saved ucsbdate
+     * @return the saved ucsbarticle
      */
     @Operation(summary= "Create a new article")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
