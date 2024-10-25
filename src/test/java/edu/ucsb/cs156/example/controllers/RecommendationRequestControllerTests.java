@@ -67,7 +67,6 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                             .andExpect(status().is(403)); // logged out users can't get by id
     } 
 
-
     // Authorization tests for POST /api/recommendationrequest/post
 
     @Test
@@ -129,8 +128,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
                 assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
         }
 
-
-
+  
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
     public void an_admin_user_can_post_a_new_recommendationrequest() throws Exception {
