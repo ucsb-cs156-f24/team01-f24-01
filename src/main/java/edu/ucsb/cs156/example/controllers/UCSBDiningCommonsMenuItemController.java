@@ -1,5 +1,6 @@
 package edu.ucsb.cs156.example.controllers;
 
+import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.entities.UCSBDiningCommonsMenuItem;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBDateRepository;
@@ -35,6 +36,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
     @Autowired
     UCSBDiningCommonsMenuItemRepository ucsbDiningCommonsMenuItemRepository;
 
+    //GET ALL 
     @Operation(summary= "List all ucsb menu items")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
@@ -43,7 +45,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
         return menuItems;
     }
 
-
+    //POST
     @Operation(summary= "Create a new menu item")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
@@ -62,6 +64,19 @@ public class UCSBDiningCommonsMenuItemController extends ApiController{
         UCSBDiningCommonsMenuItem savedUcsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.save(ucsbDiningCommonsMenuItem);
 
         return savedUcsbDiningCommonsMenuItem;
+    }
+
+    //DELETE
+    @Operation(summary= "Delete a UCSBDiningCommonsMenuItem")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBDiningCommonsMenuItem ucsbDiningCommonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        ucsbDiningCommonsMenuItemRepository.delete(ucsbDiningCommonsMenuItem);
+        return genericMessage("UCSBDiningCommonsMenuItem with id %s deleted".formatted(id));
     }
     
 }
