@@ -284,10 +284,7 @@ public class RecommendationRequestControllerTests extends ControllerTestCase {
             verify(recommendationRequestRepository, times(1)).findById(67L);
             Map<String, Object> json = responseToJson(response);
             assertEquals("RecommendationRequest with id 67 not found", json.get("message"));
-
     }
-
-
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
