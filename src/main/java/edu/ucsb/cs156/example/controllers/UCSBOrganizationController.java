@@ -43,6 +43,18 @@ public class UCSBOrganizationController extends ApiController {
         return organizations;
     }
 
+    // GET request for specific organization by org field (id)
+    @Operation(summary= "Get a single organization")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBOrganization getById(
+            @Parameter(name="orgField") @RequestParam String orgField) {
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgField)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgField));
+
+        return organization;
+    }
+
     // POST request to add a new organization to the database
     @Operation(summary="Create a new organization")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -64,5 +76,18 @@ public class UCSBOrganizationController extends ApiController {
         UCSBOrganization savedOrganization = ucsbOrganizationRepository.save(organization);
 
         return savedOrganization;
+    }
+
+    // DELETE request to delete a single record by id
+    @Operation(summary= "Delete a UCSBOrganization")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteOrganization(
+            @Parameter(name="orgField") @RequestParam String orgField) {
+        UCSBOrganization organization = ucsbOrganizationRepository.findById(orgField)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBOrganization.class, orgField));
+
+        ucsbOrganizationRepository.delete(organization);
+        return genericMessage("UCSBOrganization with id %s deleted".formatted(orgField));
     }
 }
