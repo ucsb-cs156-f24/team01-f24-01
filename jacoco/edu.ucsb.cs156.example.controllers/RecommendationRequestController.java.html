@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
 @RequestMapping(&quot;/api/recommendationrequests&quot;)
 @RestController
 <span class="fc" id="L34">@Slf4j</span>
-<span class="fc" id="L35">public class RecommendationRequestController {</span>
+<span class="fc" id="L35">public class RecommendationRequestController extends ApiController {</span>
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
 
@@ -45,7 +45,17 @@ import java.time.LocalDateTime;
 <span class="fc" id="L45">        return requests;</span>
     }
 
- 
+    @Operation(summary= &quot;Get a single date&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public RecommendationRequest getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L53">        RecommendationRequest request = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L54">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+
+<span class="fc" id="L56">        return request;</span>
+    }
+
     @Operation(summary= &quot;Create a new request&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PostMapping(&quot;/post&quot;)
@@ -59,17 +69,17 @@ import java.time.LocalDateTime;
             )   
             throws JsonProcessingException {
 
-<span class="fc" id="L62">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
-<span class="fc" id="L63">        recommendationRequest.setRequesterEmail(requesterEmail);</span>
-<span class="fc" id="L64">        recommendationRequest.setProfessorEmail(professorEmail);</span>
-<span class="fc" id="L65">        recommendationRequest.setExplanation(explanation);</span>
-<span class="fc" id="L66">        recommendationRequest.setDateRequested(dateRequested);</span>
-<span class="fc" id="L67">        recommendationRequest.setDateNeeded(dateNeeded);</span>
-<span class="fc" id="L68">        recommendationRequest.setDone(done);</span>
+<span class="fc" id="L72">        RecommendationRequest recommendationRequest = new RecommendationRequest();</span>
+<span class="fc" id="L73">        recommendationRequest.setRequesterEmail(requesterEmail);</span>
+<span class="fc" id="L74">        recommendationRequest.setProfessorEmail(professorEmail);</span>
+<span class="fc" id="L75">        recommendationRequest.setExplanation(explanation);</span>
+<span class="fc" id="L76">        recommendationRequest.setDateRequested(dateRequested);</span>
+<span class="fc" id="L77">        recommendationRequest.setDateNeeded(dateNeeded);</span>
+<span class="fc" id="L78">        recommendationRequest.setDone(done);</span>
 
-<span class="fc" id="L70">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
+<span class="fc" id="L80">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
 
-<span class="fc" id="L72">        return savedRecommendationRequest;</span>
+<span class="fc" id="L82">        return savedRecommendationRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
