@@ -40,8 +40,14 @@
                   },
                   {
                     "column": {
+                        "name": "STARS",
+                        "type": "INTEGER"
+                    }
+                  },
+                  {
+                    "column": {
                       "name": "DATE_REVIEWED",
-                      "type": "LOCALDATETIME"
+                      "type": "TIMESTAMP"
                     }
                   },
                   {
