@@ -91,6 +91,7 @@ public class UCSBOrganizationController extends ApiController {
         return genericMessage("UCSBOrganization with id %s deleted".formatted(orgField));
     }
 
+    // PUT request to update single organization record
     @Operation(summary= "Update a single organization")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
