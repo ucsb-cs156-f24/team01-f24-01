@@ -94,4 +94,68 @@ public class UCSBArticlesController extends ApiController {
         return savedUcsbArticles;
     }
 
+    /**
+     * Get a single article by id
+     * 
+     * @param id the id of the article
+     * @return a UCSBArticles
+     */
+    @Operation(summary= "Get a single article")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBArticles getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBArticles ucsbArticles = ucsbArticlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBArticles.class, id));
+
+        return ucsbArticles;
+    }
+
+        /**
+     * Delete a UCSBArticles
+     * 
+     * @param id the id of the article to delete
+     * @return a message indicating the article was deleted
+     */
+    @Operation(summary= "Delete a UCSBArticles")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBArticles(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBArticles ucsbArticles = ucsbArticlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBArticles.class, id));
+
+        ucsbArticlesRepository.delete(ucsbArticles);
+        return genericMessage("UCSBArticle with id %s deleted".formatted(id));
+    }
+
+    /**
+     * Update a single article
+     * 
+     * @param id       id of the article to update
+     * @param incoming the new article
+     * @return the updated article object
+     */
+    @Operation(summary= "Update a single article")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBArticles updateUCSBArticles(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBArticles incoming) {
+
+        UCSBArticles ucsbArticles = ucsbArticlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBArticles.class, id));
+
+        ucsbArticles.setTitle(incoming.getTitle());
+        ucsbArticles.setUrl(incoming.getUrl());
+        ucsbArticles.setExplanation(incoming.getExplanation());
+        ucsbArticles.setEmail(incoming.getEmail());
+        ucsbArticles.setDateAdded(incoming.getDateAdded());
+
+        ucsbArticlesRepository.save(ucsbArticles);
+
+        return ucsbArticles;
+    }
+
+
 }
