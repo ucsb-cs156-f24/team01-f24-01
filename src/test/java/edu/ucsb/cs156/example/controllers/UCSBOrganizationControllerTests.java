@@ -128,7 +128,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
     @WithMockUser(roles = { "ADMIN", "USER" })
     @Test
-    public void an_admin_user_can_post_a_new_commons() throws Exception {
+    public void an_admin_user_can_post_a_new_organization() throws Exception {
             // arrange
 
             UCSBOrganization studentLife = UCSBOrganization.builder()
