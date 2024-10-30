@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/team01-f24-01
 owner: ucsb-cs156-f24
 repo_name: team01-f24-01
-pull_requests: []
+pull_requests: [{"author":{"id":"MDQ6VXNlcjYxMzk0NTgx","is_bot":false,"login":"Neamal","name":"Junhyung Yoon"},"headRefName":"junhyung-menuitemreview-create-db","number":65,"title":"Delete MenuItemReview Controller","url":"https://github.com/ucsb-cs156-f24/team01-f24-01/pull/65"}]
