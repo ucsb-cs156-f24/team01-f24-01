@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f24/team01-f24-01
 owner: ucsb-cs156-f24
 repo_name: team01-f24-01
-pull_requests: [{"author":{"id":"U_kgDOB8qFcQ","is_bot":false,"login":"cameronbyrne4","name":"Cameron Byrne"},"headRefName":"cameron-HelpRequest-GET-PUT-DELETE","number":68,"title":"Completed GET, PUT, and DELETE tasks for help requests","url":"https://github.com/ucsb-cs156-f24/team01-f24-01/pull/68"}]
+pull_requests: []
