@@ -1,0 +1,73 @@
+{
+    "databaseChangeLog": [
+      {
+        "changeSet": {
+          "id": "HelpRequest-1",
+          "author": "cameronbyrne4",
+          "preConditions": [
+            {
+              "onFail": "MARK_RAN"
+            },
+            {
+              "not": [
+                {
+                  "tableExists": {
+                    "tableName": "HELPREQUEST"
+                  }
+                }
+              ]
+            }
+          ],
+          "changes": [
+            {
+              "createTable": {
+                "columns": [
+                  {
+                    "column": {
+                      "constraints": {
+                        "primaryKey": true,
+                        "primaryKeyName": "HELPREQUEST_PK"
+                      },
+                      "name": "REQUESTER_EMAIL",
+                      "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "TEAM_ID",
+                      "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                        "name": "TABLE_OR_BREAKOUT_ROOM",
+                        "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "REQUEST_TIME",
+                      "type": "TIMESTAMP"
+                    }
+                  },
+                  {
+                    "column": {
+                        "name": "EXPLANATION",
+                        "type": "VARCHAR(255)"
+                    }
+                  },
+                  {
+                    "column": {
+                        "name": "SOLVED",
+                        "type": "BOOLEAN"
+                    }
+                  }
+                ],
+                "tableName": "HELPREQUEST"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
