@@ -48,7 +48,7 @@ import java.time.LocalDateTime;
 <span class="fc" id="L48">        return reviews;</span>
     }
 
-    @Operation(summary= &quot;Get a list of the menu item reviews&quot;)
+    @Operation(summary= &quot;Get a single review&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;&quot;)
     public MenuItemReview getById(
